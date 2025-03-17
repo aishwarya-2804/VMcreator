@@ -1,0 +1,60 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - main  # Runs when changes are pushed to the main branch (optional)
+
+pool:
+  vmImage: 'ubuntu-latest'  # Runs on a Microsoft-hosted Ubuntu VM
+
+variables:
+  azureServiceConnection: 'AzureDevops to Azure'
+  terraformWorkingDirectory: 'terraform-jenkins'
+  terraformStateResourceGroup: 'Dev-Storage'
+  terraformStorageAccount: 'devsa2025'
+  terraformContainerName: 'terraformcontainer'
+  terraformStateFile: 'terraform.tfstate'
+
+stages:
+- stage: Terraform_Deployment
+  displayName: 'Terraform Deployment'
+  jobs:
+  - job: Terraform
+    displayName: 'Terraform Plan & Apply'
+    steps:
+
+    - task: TerraformInstaller@0
+      displayName: 'Install Terraform'
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTaskV2@2
+      displayName: 'Terraform Init'
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(terraformWorkingDirectory)'
+        backendServiceArm: '$(azureServiceConnection)'
+        backendAzureRmResourceGroupName: '$(terraformStateResourceGroup)'
+        backendAzureRmStorageAccountName: '$(terraformStorageAccount)'
+        backendAzureRmContainerName: '$(terraformContainerName)'
+        backendAzureRmKey: '$(terraformStateFile)'
+
+    - task: TerraformTaskV2@2
+      displayName: 'Terraform Plan'
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(terraformWorkingDirectory)'
+        environmentServiceNameAzureRM: '$(azureServiceConnection)'
+
+    - task: TerraformTaskV2@2
+      displayName: 'Terraform Apply'
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(terraformWorkingDirectory)'
+        environmentServiceNameAzureRM: '$(azureServiceConnection)'
+        commandOptions: '-auto-approve'
