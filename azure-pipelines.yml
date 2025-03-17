@@ -24,7 +24,7 @@ stages:
   - job: Terraform
     displayName: 'Terraform Plan & Apply'
     steps:
-    - script: echo "##vso[task.setvariable variable=PATH]C:\Terraform;$(PATH)"
+    - script: echo "##vso[task.setvariable variable=PATH]C:\Users\User\agent\_work\_tool\terraform\1.11.2\x64;$(PATH)"
       displayName: "Set Terraform Path"
   
     - task: TerraformInstaller@0
