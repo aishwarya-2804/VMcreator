@@ -11,7 +11,7 @@ pool:
 
 variables:
   azureServiceConnection: 'AzureDevops to Azure'
-  terraformWorkingDirectory: 'terraform-jenkins'
+  terraformWorkingDirectory: 'VMcreator'
   terraformStateResourceGroup: 'Dev-Storage'
   terraformStorageAccount: 'devsa2025'
   terraformContainerName: 'terraformcontainer'
