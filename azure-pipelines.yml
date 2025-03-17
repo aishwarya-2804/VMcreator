@@ -7,7 +7,7 @@ trigger:
   - main  # Runs when changes are pushed to the main branch (optional)
 
 pool:
-  vmImage: 'ubuntu-latest'  # Runs on a Microsoft-hosted Ubuntu VM
+  name: DevopsAgent  # Use the name of your custom agent pool
 
 variables:
   azureServiceConnection: 'AzureDevops to Azure'
