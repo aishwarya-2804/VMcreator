@@ -129,4 +129,4 @@ Auto-shutdown after 80 minutes (Optional)
      command = "az vm delete --name Dev-Jenkins --resource-group DevRG --yes"
    }
  }
-# edit 5
+# edit 6
